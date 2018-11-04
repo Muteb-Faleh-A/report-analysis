@@ -2,26 +2,27 @@
 
 import psycopg2
 
-topArticles = """select articles.title, count(*)
-    as countNum from log, articles where
+topArticles = """SELECT articles.title, count(*)
+    as countNum FROM log, articles WHERE
     log.status='200 OK' and articles.slug=
     substr(log.path, 10) group by articles.title
     order by countNum desc limit 3;"""
 
-popularAuthors = """select authors.name,
-    count(*) as countNum from articles,
-    authors, log where log.status='200 OK'
+popularAuthors = """SELECT authors.name,
+    count(*) as countNum FROM articles,
+    authors, log WHERE log.status='200 OK'
     and authors.id = articles.author and
     articles.slug = substr(log.path, 10)
     group by authors.name order by
     countNum desc limit 3;"""
 
-requestsErrors = """select date1, reqsts_sent, err1,100.0
-    * err1 / reqsts_sent as pert from (select date_trunc
-    ('day', time) as reqdate, count(*) as reqsts_sent from
+requestsErrors = """SELECT TO_CHAR(date1,'Mon DD, YYYY')
+    , reqsts_sent, err1,100.0
+    * err1 / reqsts_sent as pert FROM (select date_trunc
+    ('day', time) as reqdate, count(*) as reqsts_sent FROM
     log group by reqdate)as requests,(select date_trunc
-    ('day', time) as date1,count(*)as err1 from log where
-    status = '404 NOT FOUND'group by date1)as errors where
+    ('day', time) as date1,count(*)as err1 FROM log WHERE
+    status = '404 NOT FOUND'group by date1)as errors WHERE
     reqdate = date1 and errors.err1 > 0.01 *
     requests.reqsts_sent order by date1 desc;"""
 
@@ -58,7 +59,7 @@ def errors():
     # Print results
     the_title("(Q3)-->Days more than 1% of requests lead to errors.")
     for date1, reqsts_sent, err1, pert in errors:
-        print("\t{:} {:.3f}% \n\tGood".format(date1, pert))
+        print("\t{:} --> {:.3f}% \n\tGood".format(date1, pert))
 
 
 if __name__ == '__main__':

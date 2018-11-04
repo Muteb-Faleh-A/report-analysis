@@ -21,7 +21,7 @@ This project makes use of Udacity's Linux-based virtual machine (VM) configurati
 Download Vagrant and install.
 Download Virtual Box and install.
 Clone this repository to a directory of your choice.
-Download the newsdata.sql (extract from newsdata.zip (not provided here though)) and newsdata.py files from the respository and move them to your vagrant directory within your VM.
+Download the newsdata.sql https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip(extract from newsdata.zip (not provided here though)) and newsdata.py files from the respository and move them to your vagrant directory within your VM.
 Run these commands from the terminal in the folder where your vagrant is installed in:
 vagrant up to start up the VM.
 vagrant ssh to log into the VM.
